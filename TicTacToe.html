@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<body>
+<style>
+/*CSS*/
+	table{border-collapse: collapse;}
+	#ttt_table td {font-size: 90px; font-weight = bold; height: 100px; width: 100px;}
+	.center {text-align: center;}
+	.marginAuto {margin: auto;}
+</style>
+<h1 class="center"> Tic - Tac - Toe </h1>
+ <table id = "ttt_table" class="marginAuto center">
+  <tr>
+    <td id = "pos1" onclick="ttt_click(1);" style="border-right:10px solid #000; border-bottom:10px solid #000;"></td>
+    <td id = "pos2" onclick="ttt_click(2);" style="border-right:10px solid #000; border-bottom:10px solid #000;"></td>
+    <td id = "pos3" onclick="ttt_click(3);" style="border-bottom:10px solid #000;"></td>
+  </tr>
+  <tr>
+    <td id = "pos4" onclick="ttt_click(4);" style="border-right:10px solid #000;border-bottom:10px solid #000;"></td>
+    <td id = "pos5" onclick="ttt_click(5);" style="border-right:10px solid #000;border-bottom:10px solid #000;"></td>
+    <td id = "pos6" onclick="ttt_click(6);" style="border-bottom:10px solid #000;"></td>
+  </tr>
+  <tr>
+    <td id = "pos7" onclick="ttt_click(7);" style="border-right:10px solid #000;"></td>
+    <td id = "pos8" onclick="ttt_click(8);" style="border-right:10px solid #000;"></td>
+    <td id = "pos9" onclick="ttt_click(9);"></td>
+  </tr>
+</table>
+<h2 id = "gameStatus" class="center">It is X's turn!</h2>
+
+<script>
+/*A boolean variable that equals TRUE if the game is over*/
+var isGameOver = false;
+/*A character value that equals 'X' or 'O' depending on whose turn it is*/
+var whoseTurn = 'X';
+/*mt_obj is an alias for a longer piece of code*/
+var mt_obj = document.getElementById('gameStatus')
+/*A boolean array that equals FALSE when game board is empty, and will equal 'X' or 'O' 
+(both equivalent to TRUE) after the corresponding position is clicked. posArray [0] will always equal FALSE. */
+var posArray = [false,false,false,false,false,false,false,false,false,false];
+/*winSets is an arrray of arrays. Each of the inner arrays contains 3 possible win positions 
+that the program can use to check posArray for a win.*/
+var winSets = [
+	[1,2,3],
+	[4,5,6],
+	[7,8,9],
+	[1,4,7],
+	[2,5,8],
+	[3,6,9],
+	[1,5,9],
+	[3,5,7]
+];
+/*ttt_click checks for a click and places 'X' or 'O' on the gameboard.
+It also updates gameStatus.*/
+function ttt_click(posClicked){
+/*Checks if the game is won*/
+if(isGameOver){
+return;
+}
+/*If the section of the game board position has not been clicked already,
+add 'X' or 'O' to both posArray and game board, and then check for a win.*/
+if(!posArray[posClicked]){
+posArray[posClicked] = whoseTurn;
+document.getElementById('pos'+posClicked).innerHTML = whoseTurn;
+checkForWin();
+/* Updates gameStatus if game is won*/
+if(isGameOver){
+mt_obj.innerHTML = whoseTurn+' wins!!!';
+return;
+}
+/*updates gameStatus depending on whose turn it is*/
+if(whoseTurn == 'X'){
+whoseTurn = 'O';
+mt_obj.innerHTML = 'It is '+whoseTurn+'\'s turn!';
+
+}else{
+whoseTurn = 'X';
+mt_obj.innerHTML = 'It is '+whoseTurn+'\'s turn!';
+}
+}
+}
+/*Checks for a win by looping through the winSets array and
+using the values from the inner arrays to check posArray for a win.  */
+function checkForWin(){
+for(var i =0; i<8; i++){
+if(posArray[winSets [i][0]]){
+	if(posArray[winSets [i][0]] == posArray[winSets [i][1]] && 
+		posArray[winSets [i][1]] == posArray[winSets [i][2]]){
+		isGameOver = true;
+	}
+}
+}
+}
+</script>
+</body>
+</html>
